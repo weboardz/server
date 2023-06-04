@@ -1,3 +1,4 @@
+import { invalidFormatError } from "@/errors";
 import { BuildCreateUserProps, CreateUserFunction } from "./types";
 
 const DEFAULT_PROFILE_PICTURE_URL = "http://localhost:5000/";
@@ -42,7 +43,7 @@ const validateDataWithRegex = (data: { [index: string]: string }) => {
   };
 
   for (const key in data) {
-    if (!data[key].match(regex[key])) throw new Error(`Invalid ${key}`);
+    if (!data[key].match(regex[key])) throw invalidFormatError(key);
   }
 };
 
