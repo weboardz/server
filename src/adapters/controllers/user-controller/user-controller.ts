@@ -8,12 +8,8 @@ const executeSignUpUser = async ({
   response,
 }: IHttpProtocol<SignUpBody>) => {
   const data = request.body;
-  try {
-    await registerUser(data);
-    response.send({ status: httpStatus.CREATED });
-  } catch (error) {
-    response.send({ status: httpStatus.BAD_REQUEST, payload: error });
-  }
+  await registerUser(data);
+  response.send({ status: httpStatus.CREATED });
 };
 
 const buildUserController = (adapter: ControllerAdapter): IUserController => {
