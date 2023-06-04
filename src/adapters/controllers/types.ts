@@ -14,6 +14,13 @@ type Response = {
   send: (config: { status: number; payload?: any }) => void;
 };
 
-type ControllerAdapter = <BodyType>(...args: any[]) => IHttpProtocol<BodyType>;
+type ControllerAdapter = <BodyType>(
+  config: {
+    bodyValidator: Validator<BodyType>;
+  },
+  ...args: any[]
+) => IHttpProtocol<BodyType>;
 
-export { IHttpProtocol, Request, Response, ControllerAdapter };
+type Validator<T> = (data: any) => T;
+
+export { IHttpProtocol, Request, Response, ControllerAdapter, Validator };

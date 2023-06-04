@@ -1,15 +1,18 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { ControllerAdapter, IHttpProtocol } from "./types";
+import { ControllerAdapter, IHttpProtocol, Validator } from "./types";
 
-const fastifyAdapter: ControllerAdapter = <T>(
+const fastifyAdapter: ControllerAdapter = <B>(
+  config: { bodyValidator: Validator<B> },
   fastifyRequest: FastifyRequest,
   fastifyReply: FastifyReply
 ) => {
   const { body, params, query } = fastifyRequest;
 
-  const adaptedHttpProtocol: IHttpProtocol<T> = {
+  const parsedBody = config.bodyValidator(body);
+
+  const adaptedHttpProtocol: IHttpProtocol<B> = {
     request: {
-      body: body as T,
+      body: parsedBody,
       params: params || {},
       query: query || {},
     },

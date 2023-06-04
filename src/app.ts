@@ -2,7 +2,7 @@ import cors from "@fastify/cors";
 import fastify from "fastify";
 import { userRoute } from "./routes";
 
-const app = fastify({ logger: true });
+const app = fastify();
 
 app.register(cors, { origin: true });
 
