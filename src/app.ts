@@ -2,9 +2,15 @@ import cors from "@fastify/cors";
 import fastify from "fastify";
 import { userRoute } from "./routes";
 
-const app = fastify();
+const app = fastify({ logger: true });
 
 app.register(cors, { origin: true });
+
+app.setErrorHandler((error, _, reply) => {
+  console.error(error);
+  const { statusCode = 500, name, message } = error;
+  reply.code(statusCode).send({ name, message });
+});
 
 app.register(userRoute);
 
