@@ -1,5 +1,6 @@
 interface IUserController {
   signUpUser: (...args: any[]) => Promise<void>;
+  signInUser: (...args: any[]) => Promise<void>;
 }
 
 type SignUpBody = {
@@ -8,4 +9,6 @@ type SignUpBody = {
   password: string;
 };
 
-export { IUserController, SignUpBody };
+type SignInBody = Omit<SignUpBody, "name">;
+
+export { IUserController, SignUpBody, SignInBody };

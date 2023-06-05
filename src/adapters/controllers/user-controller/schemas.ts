@@ -1,5 +1,5 @@
 import { ZodSchema, z } from "zod";
-import { SignUpBody } from "./types";
+import { SignInBody, SignUpBody } from "./types";
 
 const SignUpSchema: ZodSchema<SignUpBody> = z.object({
   name: z.string().min(2).max(32),
@@ -7,4 +7,9 @@ const SignUpSchema: ZodSchema<SignUpBody> = z.object({
   password: z.string().min(8).max(16),
 });
 
-export { SignUpSchema };
+const SignInSchema: ZodSchema<SignInBody> = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).max(16),
+});
+
+export { SignUpSchema, SignInSchema };

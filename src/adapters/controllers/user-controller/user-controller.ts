@@ -1,8 +1,8 @@
-import { registerUser } from "@/usecases";
+import { logUser, registerUser } from "@/usecases";
 import httpStatus from "http-status";
 import { ControllerAdapter, IHttpProtocol } from "../types";
-import { SignUpSchema } from "./schemas";
-import { IUserController, SignUpBody } from "./types";
+import { SignInSchema, SignUpSchema } from "./schemas";
+import { IUserController, SignInBody, SignUpBody } from "./types";
 
 const executeSignUpUser = async ({
   request,
@@ -11,6 +11,15 @@ const executeSignUpUser = async ({
   const data = request.body;
   await registerUser(data);
   response.send({ status: httpStatus.CREATED });
+};
+
+const executeSignInUser = async ({
+  request,
+  response,
+}: IHttpProtocol<SignInBody>) => {
+  const data = request.body;
+  const credentials = await logUser(data);
+  response.send({ status: httpStatus.OK, payload: credentials });
 };
 
 const buildUserController = (adapter: ControllerAdapter): IUserController => {
@@ -27,8 +36,22 @@ const buildUserController = (adapter: ControllerAdapter): IUserController => {
     );
   };
 
+  const signInUser: IUserController["signInUser"] = async (
+    request,
+    response
+  ) => {
+    await executeSignInUser(
+      adapter<SignInBody>(
+        { bodyValidator: (data: any) => SignInSchema.parse(data) },
+        request,
+        response
+      )
+    );
+  };
+
   return Object.freeze({
     signUpUser,
+    signInUser,
   });
 };
 
