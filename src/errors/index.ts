@@ -27,3 +27,11 @@ export const invalidFormatError = (item: string): ApplicationError => {
     statusCode: httpStatus.UNPROCESSABLE_ENTITY,
   };
 };
+
+export const invalidCredentialsError = (item: string): ApplicationError => {
+  return {
+    name: "InvalidCredentialsError",
+    message: `Resource ${item} is not valid`,
+    statusCode: httpStatus.UNAUTHORIZED,
+  };
+};
