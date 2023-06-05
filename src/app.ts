@@ -1,10 +1,15 @@
 import cors from "@fastify/cors";
+import jwt from "@fastify/jwt";
 import fastify from "fastify";
-import { userRoute } from "./routes";
+import { authRoute } from "./routes";
 
 const app = fastify();
 
 app.register(cors, { origin: true });
+
+app.register(jwt, {
+  secret: process.env.SECRET || "supersecret",
+});
 
 app.setErrorHandler((error, _, reply) => {
   console.error(error);
@@ -12,7 +17,7 @@ app.setErrorHandler((error, _, reply) => {
   reply.code(statusCode).send({ name, message });
 });
 
-app.register(userRoute);
+app.register(authRoute, { prefix: "/auth" });
 
 export const main = async (port: number) => {
   try {
