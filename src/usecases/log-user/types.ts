@@ -3,12 +3,6 @@ type LogUserProps = {
   password: string;
 };
 
-type AuthenticationPayload = {
-  token: string;
-  name: string;
-  profilePictureUrl: string;
-};
+type LogUserFunction = (data: LogUserProps) => Promise<{ token: string }>;
 
-type LogUserFunction = (data: LogUserProps) => Promise<AuthenticationPayload>;
-
-export { AuthenticationPayload, LogUserProps, LogUserFunction };
+export { LogUserProps, LogUserFunction };
