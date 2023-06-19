@@ -1,4 +1,4 @@
-import { IUser } from "@/domain";
+import { IBoard, IUser } from "@/domain";
 
 interface IUserRepository {
   create: (data: IUser) => Promise<IUser>;
@@ -6,4 +6,8 @@ interface IUserRepository {
   findByEmail: (email: string) => Promise<IUser | null>;
 }
 
-export { IUserRepository };
+interface IBoardRepository {
+  create: (data: IBoard) => Promise<IBoard>;
+}
+
+export { IBoardRepository, IUserRepository };
