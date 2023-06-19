@@ -4,7 +4,7 @@ import { CreateBoardFunction } from "./types";
 const buildCreateBoard = ({
   idGenerator,
 }: BuildCreateEntityProps): CreateBoardFunction => {
-  return async ({
+  return ({
     id,
     name,
     elements,

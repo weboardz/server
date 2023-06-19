@@ -15,7 +15,6 @@ type CreateBoardProps = Omit<
   creatorId: string;
 };
 
-type CreateBoardFunction = (data: CreateBoardProps) => Promise<IBoard>;
+type CreateBoardFunction = (data: CreateBoardProps) => IBoard;
 
 export { CreateBoardFunction, CreateBoardProps, IBoard };
-
