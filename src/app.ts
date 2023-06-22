@@ -1,7 +1,8 @@
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
 import fastify from "fastify";
-import { authRoute } from "./routes";
+
+import { authRoute, boardRoute } from "./routes";
 
 const app = fastify();
 
@@ -12,12 +13,12 @@ app.register(jwt, {
 });
 
 app.setErrorHandler((error, _, reply) => {
-  console.error(error);
   const { statusCode = 500, name, message } = error;
   reply.code(statusCode).send({ name, message });
 });
 
 app.register(authRoute, { prefix: "/auth" });
+app.register(boardRoute, { prefix: "/board" });
 
 export const main = async (port: number) => {
   try {
