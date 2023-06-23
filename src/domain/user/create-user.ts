@@ -1,7 +1,13 @@
 import { invalidFormatError } from "@/errors";
-import { BuildCreateUserProps, CreateUserFunction } from "./types";
+
+import { BuildCreateEntityProps } from "../types";
+import { CreateUserFunction } from "./types";
 
 const DEFAULT_PROFILE_PICTURE_URL = "http://localhost:5000/";
+
+type BuildCreateUserProps = BuildCreateEntityProps & {
+  hashGenerator(text: string): Promise<string>;
+};
 
 const buildCreateUser = ({
   idGenerator,

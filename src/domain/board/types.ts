@@ -2,18 +2,12 @@ import { IEntity } from "../types";
 
 interface IBoard extends IEntity {
   name: string;
+  type: "private" | "public" | "team";
   elements: string;
   creatorId: string;
 }
 
-type CreateBoardProps = Omit<
-  Partial<IBoard>,
-  "name" | "elements" | "creatorId"
-> & {
-  name: string;
-  elements: string;
-  creatorId: string;
-};
+type CreateBoardProps = IBoard & Partial<IEntity>;
 
 type CreateBoardFunction = (data: CreateBoardProps) => IBoard;
 

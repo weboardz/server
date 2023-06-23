@@ -1,3 +1,5 @@
+import { invalidFormatError } from "@/errors";
+
 import { BuildCreateEntityProps } from "../types";
 import { CreateBoardFunction } from "./types";
 
@@ -7,16 +9,24 @@ const buildCreateBoard = ({
   return ({
     id,
     name,
+    type,
     elements,
     creatorId,
     createdAt = new Date(),
     updatedAt = new Date(),
   }) => {
-    if (!id) id = idGenerator();
+    id ??= idGenerator();
+
+    if (!name) invalidFormatError("name");
+    if (!creatorId) invalidFormatError("creatorId");
+
+    const typeIsValid = ["private", "public", "team"].includes(type);
+    if (!typeIsValid) invalidFormatError("type");
 
     return Object.freeze({
       id,
       name,
+      type,
       elements,
       creatorId,
       createdAt,
