@@ -1,5 +1,6 @@
 import { prisma } from "@/config/prisma";
 import { createUser } from "@/domain";
+
 import { IUserRepository } from "../";
 
 const create: IUserRepository["create"] = async ({

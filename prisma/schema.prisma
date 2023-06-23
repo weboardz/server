@@ -35,4 +35,5 @@ model Board {
 enum BoardType {
   private
   public
+  team
 }
