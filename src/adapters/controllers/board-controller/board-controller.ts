@@ -1,30 +1,23 @@
-import { registerBoard } from "@/usecases/register-board";
 import httpStatus from "http-status";
+
 import { ControllerAdapter, IHttpProtocol } from "../types";
-import { CreateBoardSchema } from "./schemas";
 import { CreateBoardBody, IBoardController } from "./types";
+
+import { registerBoard } from "@/usecases";
 
 const executeCreateBoard = async ({
   request,
   response,
 }: IHttpProtocol<CreateBoardBody>) => {
-  const data = request.body;
-  await registerBoard(data);
+  const { data, userId } = request;
+  if (!userId) return response.send({ status: httpStatus.UNAUTHORIZED });
+  await registerBoard({ ...data, userId });
   response.send({ status: httpStatus.CREATED });
 };
 
 const buildBoardController = (adapter: ControllerAdapter): IBoardController => {
-  const createBoard: IBoardController["createBoard"] = async (
-    request,
-    response
-  ) => {
-    await executeCreateBoard(
-      adapter<CreateBoardBody>(
-        { bodyValidator: (data: any) => CreateBoardSchema.parse(data) },
-        request,
-        response
-      )
-    );
+  const createBoard: IBoardController["createBoard"] = async (req, res) => {
+    await executeCreateBoard(adapter<CreateBoardBody>(req, res));
   };
 
   return Object.freeze({

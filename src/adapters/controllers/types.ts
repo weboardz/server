@@ -1,26 +1,17 @@
-interface IHttpProtocol<RequestBodyType> {
-  request: Request<RequestBodyType>;
+interface IHttpProtocol<T> {
+  request: Request<T>;
   response: Response;
 }
 
-type Request<BodyType> = {
+type Request<T> = {
+  data: T;
   userId?: string;
-  params: object;
-  query: object;
-  body: BodyType;
 };
 
 type Response = {
-  send: (config: { status: number; payload?: any }) => void;
+  send(config: { status: number; payload?: any }): void;
 };
 
-type ControllerAdapter = <BodyType>(
-  config: {
-    bodyValidator: Validator<BodyType>;
-  },
-  ...args: any[]
-) => IHttpProtocol<BodyType>;
+type ControllerAdapter = <T>(...args: any[]) => IHttpProtocol<T>;
 
-type Validator<T> = (data: any) => T;
-
-export { IHttpProtocol, Request, Response, ControllerAdapter, Validator };
+export { ControllerAdapter, IHttpProtocol, Request, Response };

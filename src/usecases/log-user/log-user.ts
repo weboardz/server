@@ -4,7 +4,7 @@ import { LogUserFunction } from "./types";
 
 type BuildLogUserProps = {
   userRepository: IUserRepository;
-  tokenGenerator(data: any): string;
+  tokenGenerator(data: object, id: string): string;
   passwordChecker(password: string, hash: string): Promise<boolean>;
 };
 
@@ -22,11 +22,7 @@ const buildLogUser = ({
     const passwordIsValid = await passwordChecker(password, hashedPassword);
     if (!passwordIsValid) throw invalidCredentialsError("password");
 
-    const token = tokenGenerator({
-      sub: id,
-      name,
-      avatarUrl: profilePictureUrl,
-    });
+    const token = tokenGenerator({ name, avatarUrl: profilePictureUrl }, id);
 
     return { token };
   };
