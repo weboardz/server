@@ -10,7 +10,6 @@ interface IBoardRepository {
   create(data: IBoard): Promise<IBoard>;
   findById(id: string): Promise<IBoard | null>;
   findManyByUserId(userId: string): Promise<IBoard[]>;
-  updateElementsFromId(id: string, elements: string): Promise<void>;
 }
 
 export { IBoardRepository, IUserRepository };

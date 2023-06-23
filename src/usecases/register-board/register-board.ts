@@ -20,7 +20,6 @@ const buildRegisterBoard = ({
       name,
       type,
       creatorId: userId,
-      elements: "",
     });
 
     return boardRepository.create(boardToCreate);

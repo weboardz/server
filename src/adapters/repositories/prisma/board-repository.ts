@@ -7,7 +7,6 @@ const create: IBoardRepository["create"] = async ({
   id,
   name,
   type,
-  elements,
   creatorId,
 }) => {
   const boardFromPrisma = await prisma.board.create({
@@ -15,7 +14,6 @@ const create: IBoardRepository["create"] = async ({
       id,
       name,
       type,
-      elements,
       userId: creatorId,
     },
   });
@@ -39,18 +37,10 @@ const findManyByUserId: IBoardRepository["findManyByUserId"] = async (
   );
 };
 
-const updateElementsFromId: IBoardRepository["updateElementsFromId"] = async (
-  id,
-  elements
-) => {
-  await prisma.board.update({ where: { id }, data: { elements } });
-};
-
 const boardPrismaRepository: IBoardRepository = {
   create,
   findById,
   findManyByUserId,
-  updateElementsFromId,
 };
 
 export { boardPrismaRepository };

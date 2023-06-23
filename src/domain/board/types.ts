@@ -3,7 +3,6 @@ import { IEntity } from "../types";
 interface IBoard extends IEntity {
   name: string;
   type: "private" | "public" | "team";
-  elements: string;
   creatorId: string;
 }
 
