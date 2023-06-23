@@ -1,10 +1,12 @@
-import { CreateUserProps, IUser } from "@/domain";
+import { IUser } from "@/domain";
 
-type RegisterUserProps = Omit<
-  CreateUserProps,
-  "id" | "createdAt" | "updatedAt"
->;
+type RegisterUserProps = {
+  name: string;
+  email: string;
+  password: string;
+  profilePictureUrl?: string;
+};
 
 type RegisterUserFunction = (data: RegisterUserProps) => Promise<IUser>;
 
-export { RegisterUserProps, RegisterUserFunction };
+export { RegisterUserFunction, RegisterUserProps };

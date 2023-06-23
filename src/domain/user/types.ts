@@ -7,8 +7,14 @@ interface IUser extends IEntity {
   profilePictureUrl: string;
 }
 
-type CreateUserProps = Omit<IUser, "hashedPassword"> &
-  Partial<IEntity> & { password: string };
+type CreateUserProps = Omit<
+  Partial<IUser>,
+  "name" | "email" | "hashedPassword"
+> & {
+  name: string;
+  email: string;
+  password: string;
+};
 
 type CreateUserFunction = (data: CreateUserProps) => Promise<IUser>;
 

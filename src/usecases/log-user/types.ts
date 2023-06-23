@@ -5,4 +5,4 @@ type LogUserProps = {
 
 type LogUserFunction = (data: LogUserProps) => Promise<{ token: string }>;
 
-export { LogUserProps, LogUserFunction };
+export { LogUserFunction, LogUserProps };

@@ -12,15 +12,18 @@ const buildRegisterBoard = ({
   userRepository,
   boardRepository,
 }: BuildRegisterBoardProps): RegisterBoardFunction => {
-  return async ({ name, userId }) => {
+  return async ({ name, type, userId }) => {
     const user = await userRepository.findById(userId);
     if (!user) throw notFoundError("user");
 
-    const board = await boardRepository.create(
-      createBoard({ name, creatorId: userId, elements: "" })
-    );
+    const boardToCreate = createBoard({
+      name,
+      type,
+      creatorId: userId,
+      elements: "",
+    });
 
-    return board;
+    return boardRepository.create(boardToCreate);
   };
 };
 

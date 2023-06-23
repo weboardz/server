@@ -7,7 +7,7 @@ interface IBoard extends IEntity {
   creatorId: string;
 }
 
-type CreateBoardProps = IBoard & Partial<IEntity>;
+type CreateBoardProps = Omit<IBoard, keyof IEntity> & Partial<IEntity>;
 
 type CreateBoardFunction = (data: CreateBoardProps) => IBoard;
 
