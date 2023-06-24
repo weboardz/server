@@ -28,7 +28,7 @@ model Board {
   type      BoardType
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   elements  Element[]
 }
 
@@ -44,5 +44,5 @@ model Element {
   data      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  board     Board    @relation(fields: [boardId], references: [id])
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
 }
