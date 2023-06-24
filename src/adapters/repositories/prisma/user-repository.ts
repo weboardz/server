@@ -4,10 +4,10 @@ import { createUser } from "@/domain";
 import { IUserRepository } from "../";
 
 const userPrismaRepository: IUserRepository = {
-  create: async (user) =>
+  create: async ({ id, email, name, hashedPassword, profilePictureUrl }) =>
     createUser(
       await prisma.user.create({
-        data: { ...user, password: user.hashedPassword },
+        data: { id, email, name, profilePictureUrl, password: hashedPassword },
       })
     ),
 

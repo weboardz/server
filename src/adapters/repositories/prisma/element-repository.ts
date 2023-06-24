@@ -5,7 +5,7 @@ import { IElementRepository } from "../";
 
 const elementPrismaRepository: IElementRepository = {
   create: async (element) =>
-    createElement(await prisma.element.create({ data: { ...element } })),
+    createElement(await prisma.element.create({ data: element })),
 
   deleteById: async (id) => {
     try {

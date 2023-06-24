@@ -4,9 +4,9 @@ import { createBoard } from "@/domain";
 import { IBoardRepository } from "../";
 
 const boardPrismaRepository: IBoardRepository = {
-  create: async (board) => {
+  create: async ({ id, name, type, creatorId }) => {
     const boardFromPrisma = await prisma.board.create({
-      data: { ...board, userId: board.creatorId },
+      data: { id, name, type, userId: creatorId },
     });
     return createBoard({
       ...boardFromPrisma,
