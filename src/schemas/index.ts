@@ -29,4 +29,16 @@ const CreateBoardZodSchema: z.ZodSchema<CreateBoardBody> = z.object({
 
 const CreateBoardJsonSchema = zodToJsonSchema(CreateBoardZodSchema);
 
-export { CreateBoardJsonSchema, SignInJsonSchema, SignUpJsonSchema };
+const WsMessageZodSchema = z.object({
+  id: z.string().uuid(),
+  data: z.string(),
+  operation: z.enum(["create", "delete", "update"]),
+  save: z.boolean(),
+});
+
+export {
+  CreateBoardJsonSchema,
+  SignInJsonSchema,
+  SignUpJsonSchema,
+  WsMessageZodSchema
+};
