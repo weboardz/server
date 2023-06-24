@@ -7,26 +7,10 @@ const elementPrismaRepository: IElementRepository = {
   create: async (element) =>
     createElement(await prisma.element.create({ data: element })),
 
-  deleteById: async (id) => {
-    try {
-      await prisma.element.delete({ where: { id } });
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  },
+  deleteById: async (id) => !!(await prisma.element.delete({ where: { id } })),
 
-  updateById: async (id, data) => {
-    try {
-      return createElement(
-        await prisma.element.update({ where: { id }, data })
-      );
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  },
+  updateById: async (id, data) =>
+    createElement(await prisma.element.update({ where: { id }, data })),
 
   findById: async (id) => {
     const queryResult = await prisma.element.findUnique({ where: { id } });

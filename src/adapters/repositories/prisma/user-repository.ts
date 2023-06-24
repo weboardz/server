@@ -11,24 +11,10 @@ const userPrismaRepository: IUserRepository = {
       })
     ),
 
-  deleteById: async (id) => {
-    try {
-      await prisma.user.delete({ where: { id } });
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  },
+  deleteById: async (id) => !!(await prisma.user.delete({ where: { id } })),
 
-  updateById: async (id, data) => {
-    try {
-      return createUser(await prisma.user.update({ where: { id }, data }));
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  },
+  updateById: async (id, data) =>
+    createUser(await prisma.user.update({ where: { id }, data })),
 
   findById: async (id) => {
     const queryResult = await prisma.user.findUnique({ where: { id } });

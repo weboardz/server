@@ -14,30 +14,17 @@ const boardPrismaRepository: IBoardRepository = {
     });
   },
 
-  deleteById: async (id) => {
-    try {
-      await prisma.board.delete({ where: { id } });
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  },
+  deleteById: async (id) => !!(await prisma.board.delete({ where: { id } })),
 
   updateById: async (id, data) => {
-    try {
-      const boardFromPrisma = await prisma.board.update({
-        where: { id },
-        data,
-      });
-      return createBoard({
-        ...boardFromPrisma,
-        creatorId: boardFromPrisma.userId,
-      });
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
+    const boardFromPrisma = await prisma.board.update({
+      where: { id },
+      data,
+    });
+    return createBoard({
+      ...boardFromPrisma,
+      creatorId: boardFromPrisma.userId,
+    });
   },
 
   findById: async (id) => {
