@@ -1,12 +1,10 @@
 import { IUser } from "@/domain";
 
-type RegisterUserProps = {
+type RegisterUserFunction = (data: {
   name: string;
   email: string;
   password: string;
   profilePictureUrl?: string;
-};
+}) => Promise<IUser>;
 
-type RegisterUserFunction = (data: RegisterUserProps) => Promise<IUser>;
-
-export { RegisterUserFunction, RegisterUserProps };
+export { RegisterUserFunction };

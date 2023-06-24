@@ -1,6 +1,7 @@
 import { IUserRepository } from "@/adapters/repositories";
 import { createUser } from "@/domain";
 import { conflictError } from "@/errors";
+
 import { RegisterUserFunction } from "./types";
 
 const buildRegisterUser = (
@@ -10,14 +11,14 @@ const buildRegisterUser = (
     const userExists = await userRepository.findByEmail(email);
     if (userExists) throw conflictError("user");
 
-    const userToRegister = await createUser({
-      name,
-      email,
-      password,
-      profilePictureUrl,
-    });
-
-    return userRepository.create(userToRegister);
+    return userRepository.create(
+      await createUser({
+        name,
+        email,
+        password,
+        profilePictureUrl,
+      })
+    );
   };
 };
 

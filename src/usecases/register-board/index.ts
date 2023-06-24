@@ -3,11 +3,11 @@ import {
   userPrismaRepository,
 } from "@/adapters/repositories";
 
-import { buildRegisterBoard } from "./register-board";
+import { buildRegisterBoard } from "./build";
 
-const registerBoard = buildRegisterBoard({
-  userRepository: userPrismaRepository,
-  boardRepository: boardPrismaRepository,
-});
+const registerBoard = buildRegisterBoard(
+  userPrismaRepository,
+  boardPrismaRepository
+);
 
 export { registerBoard };

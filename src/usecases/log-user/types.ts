@@ -1,8 +1,6 @@
-type LogUserProps = {
+type LogUserFunction = (data: {
   email: string;
   password: string;
-};
+}) => Promise<{ token: string }>;
 
-type LogUserFunction = (data: LogUserProps) => Promise<{ token: string }>;
-
-export { LogUserFunction, LogUserProps };
+export { LogUserFunction };
