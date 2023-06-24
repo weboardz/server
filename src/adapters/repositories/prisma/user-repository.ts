@@ -3,40 +3,42 @@ import { createUser } from "@/domain";
 
 import { IUserRepository } from "../";
 
-const create: IUserRepository["create"] = async ({
-  id,
-  name,
-  email,
-  hashedPassword,
-  profilePictureUrl,
-}) => {
-  const userFromPrisma = await prisma.user.create({
-    data: {
-      id,
-      name,
-      email,
-      password: hashedPassword,
-      profilePictureUrl,
-    },
-  });
-
-  return createUser(userFromPrisma);
-};
-
-const findById: IUserRepository["findById"] = async (id: string) => {
-  const userFromPrisma = await prisma.user.findUnique({ where: { id } });
-  return userFromPrisma ? createUser(userFromPrisma) : null;
-};
-
-const findByEmail: IUserRepository["findByEmail"] = async (email: string) => {
-  const userFromPrisma = await prisma.user.findUnique({ where: { email } });
-  return userFromPrisma ? createUser(userFromPrisma) : null;
-};
-
 const userPrismaRepository: IUserRepository = {
-  create,
-  findById,
-  findByEmail,
+  create: async (user) =>
+    createUser(
+      await prisma.user.create({
+        data: { ...user, password: user.hashedPassword },
+      })
+    ),
+
+  deleteById: async (id) => {
+    try {
+      await prisma.user.delete({ where: { id } });
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  },
+
+  updateById: async (id, data) => {
+    try {
+      return createUser(await prisma.user.update({ where: { id }, data }));
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  },
+
+  findById: async (id) => {
+    const queryResult = await prisma.user.findUnique({ where: { id } });
+    return queryResult ? createUser(queryResult) : null;
+  },
+
+  findByEmail: async (email) => {
+    const queryResult = await prisma.user.findUnique({ where: { email } });
+    return queryResult ? createUser(queryResult) : null;
+  },
 };
 
 export { userPrismaRepository };

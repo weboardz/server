@@ -3,44 +3,56 @@ import { createBoard } from "@/domain";
 
 import { IBoardRepository } from "../";
 
-const create: IBoardRepository["create"] = async ({
-  id,
-  name,
-  type,
-  creatorId,
-}) => {
-  const boardFromPrisma = await prisma.board.create({
-    data: {
-      id,
-      name,
-      type,
-      userId: creatorId,
-    },
-  });
-
-  return createBoard({ ...boardFromPrisma, creatorId: boardFromPrisma.userId });
-};
-
-const findById: IBoardRepository["findById"] = async (id) => {
-  const boardFromPrisma = await prisma.board.findUnique({ where: { id } });
-  return boardFromPrisma
-    ? createBoard({ ...boardFromPrisma, creatorId: boardFromPrisma.userId })
-    : null;
-};
-
-const findManyByUserId: IBoardRepository["findManyByUserId"] = async (
-  userId
-) => {
-  const boardsFromPrisma = await prisma.board.findMany({ where: { userId } });
-  return boardsFromPrisma.map((board) =>
-    createBoard({ ...board, creatorId: board.userId })
-  );
-};
-
 const boardPrismaRepository: IBoardRepository = {
-  create,
-  findById,
-  findManyByUserId,
+  create: async (board) => {
+    const boardFromPrisma = await prisma.board.create({
+      data: { ...board, userId: board.creatorId },
+    });
+    return createBoard({
+      ...boardFromPrisma,
+      creatorId: boardFromPrisma.userId,
+    });
+  },
+
+  deleteById: async (id) => {
+    try {
+      await prisma.board.delete({ where: { id } });
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  },
+
+  updateById: async (id, data) => {
+    try {
+      const boardFromPrisma = await prisma.board.update({
+        where: { id },
+        data,
+      });
+      return createBoard({
+        ...boardFromPrisma,
+        creatorId: boardFromPrisma.userId,
+      });
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  },
+
+  findById: async (id) => {
+    const queryResult = await prisma.board.findUnique({ where: { id } });
+    return queryResult
+      ? createBoard({ ...queryResult, creatorId: queryResult.userId })
+      : null;
+  },
+
+  findManyByUserId: async (userId) => {
+    const queryResult = await prisma.board.findMany({ where: { userId } });
+    return queryResult.map((boardFromPrisma) =>
+      createBoard({ ...boardFromPrisma, creatorId: boardFromPrisma.userId })
+    );
+  },
 };
 
 export { boardPrismaRepository };
