@@ -1,6 +1,6 @@
-import { userController } from "@/adapters/controllers";
 import { FastifyInstance } from "fastify";
 
+import { userController } from "@/adapters/controllers";
 import { SignInJsonSchema, SignUpJsonSchema } from "@/schemas";
 
 const authRoute = async (app: FastifyInstance) => {
