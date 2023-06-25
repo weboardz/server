@@ -2,6 +2,7 @@ interface IBoardController {
   createBoard(...args: any[]): Promise<void>;
   deleteBoard(...args: any[]): Promise<void>;
   updateBoard(...args: any[]): Promise<void>;
+  getBoards(...args: any[]): Promise<void>;
 }
 
 type BoardIdParam = {

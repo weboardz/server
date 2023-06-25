@@ -1,5 +1,6 @@
 export * from "./delete-board";
 export * from "./get-board-elements";
+export * from "./get-user-boards";
 export * from "./log-user";
 export * from "./register-board";
 export * from "./register-user";

@@ -27,6 +27,8 @@ const boardRoute = async (app: FastifyInstance) => {
     { schema: { body: UpdateBoardJsonSchema, params: BoardIdJsonSchema } },
     boardController.updateBoard
   );
+
+  app.get("/", boardController.getBoards);
 };
 
 export { boardRoute };

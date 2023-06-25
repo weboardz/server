@@ -1,6 +1,11 @@
 import httpStatus from "http-status";
 
-import { deleteBoard, registerBoard, updateBoard } from "@/usecases";
+import {
+  deleteBoard,
+  getUserBoards,
+  registerBoard,
+  updateBoard,
+} from "@/usecases";
 
 import { HttpControllerAdapter } from "../types";
 import {
@@ -50,6 +55,18 @@ const buildBoardController = (
       await updateBoard(boardId, userId, { name, type });
 
       response.send({ status: httpStatus.OK });
+    },
+
+    getBoards: async (req, res) => {
+      const {
+        request: { userId },
+        response,
+      } = adapter(req, res);
+
+      if (!userId) return response.send({ status: httpStatus.UNAUTHORIZED });
+
+      const boards = await getUserBoards(userId);
+      response.send({ status: httpStatus.OK, payload: boards });
     },
   };
 };

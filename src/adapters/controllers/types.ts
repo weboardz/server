@@ -24,9 +24,11 @@ type Response = {
   send(config: { status: number; payload?: any }): void;
 };
 
-type HttpControllerAdapter = <T>(...args: any[]) => IHttpProtocol<T>;
+type HttpControllerAdapter = <T = null>(...args: any[]) => IHttpProtocol<T>;
 
-type WebSocketControllerAdapter = <T>(...args: any[]) => IWebSocketProtocol<T>;
+type WebSocketControllerAdapter = <T = null>(
+  ...args: any[]
+) => IWebSocketProtocol<T>;
 
 export {
   HttpControllerAdapter,
