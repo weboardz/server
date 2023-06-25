@@ -3,6 +3,18 @@ interface IHttpProtocol<T> {
   response: Response;
 }
 
+interface IWebSocketProtocol<T> {
+  connection: Connection;
+  request: Request<T>;
+}
+
+type WsEvent = "message" | "open" | "close";
+
+type Connection = {
+  on(event: WsEvent, listener: (data: WebSocket) => void): void;
+  send(payload: string): void;
+};
+
 type Request<T> = {
   data: T;
   userId?: string;
@@ -12,6 +24,13 @@ type Response = {
   send(config: { status: number; payload?: any }): void;
 };
 
-type ControllerAdapter = <T>(...args: any[]) => IHttpProtocol<T>;
+type HttpControllerAdapter = <T>(...args: any[]) => IHttpProtocol<T>;
 
-export { ControllerAdapter, IHttpProtocol, Request, Response };
+type WebSocketControllerAdapter = <T>(...args: any[]) => IWebSocketProtocol<T>;
+
+export {
+  HttpControllerAdapter,
+  IHttpProtocol,
+  IWebSocketProtocol,
+  WebSocketControllerAdapter
+};

@@ -1,6 +1,6 @@
 import { fastifyAdapter } from "../fastify-adapter";
-import { buildBoardController } from "./board-controller";
+import { buildBoardController } from "./build";
 
-const boardController = buildBoardController(fastifyAdapter);
+const boardController = buildBoardController(fastifyAdapter().http);
 
 export { boardController };
