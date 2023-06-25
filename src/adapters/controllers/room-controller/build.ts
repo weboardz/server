@@ -26,7 +26,7 @@ const buildRoomController = (
             JSON.parse(rawMessage.toString())
           );
 
-          if (message.save) updateBoardElement(message, boardId);
+          if (message.save) await updateBoardElement(message, boardId);
         } catch (error) {
           connection.send("Invalid Message Type");
         }

@@ -1,8 +1,8 @@
-import { WsMessageZodSchema } from "@/schemas";
-import { z } from "zod";
+import { WsMessage } from "@/adapters/controllers";
 
-type WsMessage = z.infer<typeof WsMessageZodSchema>;
-
-type UpdateBoardElementFunction = (message: WsMessage, boardId: string) => void;
+type UpdateBoardElementFunction = (
+  message: WsMessage,
+  boardId: string
+) => Promise<void>;
 
 export { UpdateBoardElementFunction, WsMessage };

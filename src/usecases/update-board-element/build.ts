@@ -6,20 +6,26 @@ import { UpdateBoardElementFunction } from "./types";
 const buildUpdateBoardElement = (
   elementRepository: IElementRepository
 ): UpdateBoardElementFunction => {
-  return (message, boardId) => {
+  return async (message, boardId) => {
     if (!message.save) return;
 
     const element = createElement({ boardId, ...message });
+    const elementExists = await elementRepository.findById(element.id);
 
     switch (message.operation) {
       case "create":
-        elementRepository.create(element);
+        await elementRepository.create(element);
         break;
+
       case "delete":
-        elementRepository.deleteById(element.id);
+        if (elementExists) await elementRepository.deleteById(element.id);
         break;
+
       case "update":
-        elementRepository.updateById(element.id, { data: element.data });
+        if (elementExists)
+          await elementRepository.updateById(element.id, {
+            data: element.data,
+          });
         break;
     }
   };
