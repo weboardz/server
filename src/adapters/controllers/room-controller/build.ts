@@ -26,9 +26,9 @@ const buildRoomController = (
             JSON.parse(rawMessage.toString())
           );
 
-          if (message.save) await updateBoardElement(message, boardId);
+          await updateBoardElement(message, boardId, userId);
         } catch (error) {
-          connection.send("Invalid Message Type");
+          connection.send("Could not process message");
         }
       });
     },

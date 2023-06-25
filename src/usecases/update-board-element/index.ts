@@ -1,6 +1,13 @@
-import { elementPrismaRepository } from "@/adapters/repositories";
+import {
+  boardPrismaRepository,
+  elementPrismaRepository,
+} from "@/adapters/repositories";
+
 import { buildUpdateBoardElement } from "./build";
 
-const updateBoardElement = buildUpdateBoardElement(elementPrismaRepository);
+const updateBoardElement = buildUpdateBoardElement(
+  boardPrismaRepository,
+  elementPrismaRepository
+);
 
 export { updateBoardElement };

@@ -10,9 +10,17 @@ const buildTryEnterBoardRoom = (
     const board = await boardRepository.findById(boardId);
     if (!board) throw notFoundError("board");
 
-    if (board.type === "private") {
-      const userId = await doAuthenticationAndReturnUserId();
-      if (userId !== board.creatorId) throw invalidCredentialsError("user id");
+    switch (board.type) {
+      case "private":
+        const userId = await doAuthenticationAndReturnUserId();
+        if (userId !== board.creatorId)
+          throw invalidCredentialsError("user id");
+        break;
+
+      case "team":
+      case "public":
+        await doAuthenticationAndReturnUserId().catch(() => {});
+        break;
     }
   };
 };
