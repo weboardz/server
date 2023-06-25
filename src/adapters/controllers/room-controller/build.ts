@@ -8,14 +8,16 @@ const buildRoomController = (
   adapter: WebSocketControllerAdapter
 ): IRoomController => {
   return {
-    execute: async (con: any, req: any) => {
+    execute: async (con, req, app) => {
       const {
         connection,
         request: {
           userId,
           data: { boardId },
         },
-      } = adapter<{ boardId: string }>(con, req);
+      } = adapter<{ boardId: string }>(con, req, app);
+
+      connection.addToClient({ boardId, userId });
 
       const elements = await getBoardElements(boardId);
       connection.send(JSON.stringify(elements));
@@ -25,8 +27,8 @@ const buildRoomController = (
           const message = WsMessageZodSchema.parse(
             JSON.parse(rawMessage.toString())
           );
-
           await updateBoardElement(message, boardId, userId);
+          connection.broadcast(JSON.stringify(message), { boardId, userId });
         } catch (error) {
           connection.send("Could not process message");
         }

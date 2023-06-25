@@ -1,7 +1,11 @@
 import { SocketStream } from "@fastify/websocket";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
-import { HttpControllerAdapter, WebSocketControllerAdapter } from "./types";
+import {
+  ExtendedWebSocket,
+  HttpControllerAdapter,
+  WebSocketControllerAdapter,
+} from "./types";
 
 const fastifyAdapter = () => {
   const http: HttpControllerAdapter = <T>(
@@ -21,12 +25,29 @@ const fastifyAdapter = () => {
 
   const ws: WebSocketControllerAdapter = <T>(
     con: SocketStream,
-    req: FastifyRequest
+    req: FastifyRequest,
+    app: FastifyInstance
   ) => {
     return {
       connection: {
         on: (event, listener) => con.socket.on(event, listener),
         send: (payload) => con.socket.send(payload),
+        addToClient: ({ boardId, userId }) => {
+          const socket = con.socket as unknown as ExtendedWebSocket;
+          socket.boardId = boardId;
+          socket.userId = userId;
+        },
+        broadcast: (payload, { boardId, userId }) => {
+          app.websocketServer.clients.forEach((wsClient) => {
+            const client = wsClient as unknown as ExtendedWebSocket;
+            if (
+              client.boardId === boardId &&
+              client.userId !== userId &&
+              client.readyState === 1
+            )
+              client.send(payload);
+          });
+        },
       },
       request: {
         data: { ...(req.body as object), ...(req.params as object) } as T,

@@ -12,7 +12,9 @@ const roomRoute = async (app: FastifyInstance) => {
     });
   });
 
-  app.get("/:boardId", { websocket: true }, roomController.execute);
+  app.get("/:boardId", { websocket: true }, async (con, req) => {
+    roomController.execute(con, req, app);
+  });
 };
 
 export { roomRoute };

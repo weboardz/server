@@ -8,11 +8,17 @@ interface IWebSocketProtocol<T> {
   request: Request<T>;
 }
 
+type CustomClientProps = { boardId: string; userId?: string };
+
+type ExtendedWebSocket = WebSocket & CustomClientProps;
+
 type WsEvent = "message" | "open" | "close";
 
 type Connection = {
   on(event: WsEvent, listener: (data: WebSocket) => void): void;
   send(payload: string): void;
+  addToClient(props: CustomClientProps): void;
+  broadcast(payload: string, conditions: CustomClientProps): void;
 };
 
 type Request<T> = {
@@ -31,6 +37,7 @@ type WebSocketControllerAdapter = <T = null>(
 ) => IWebSocketProtocol<T>;
 
 export {
+  ExtendedWebSocket,
   HttpControllerAdapter,
   IHttpProtocol,
   IWebSocketProtocol,
