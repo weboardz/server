@@ -1,8 +1,6 @@
 import dotenv from "dotenv";
-import { main } from "./app";
+import { startServerOnPort } from "./app";
 
 dotenv.config();
 
-const port = Number(process.env.PORT) || 5000;
-
-main(port);
+startServerOnPort(Number(process.env.PORT) || 5000);
