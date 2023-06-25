@@ -1,4 +1,4 @@
-import { BuildCreateEntityProps, IEntity } from "../types";
+import { IEntity } from "../types";
 
 interface IUser extends IEntity {
   name: string;
@@ -18,8 +18,4 @@ type CreateUserProps = Omit<
 
 type CreateUserFunction = (data: CreateUserProps) => Promise<IUser>;
 
-type BuildCreateUserProps = BuildCreateEntityProps & {
-  hashGenerator: (text: string) => Promise<string>;
-};
-
-export { IUser, CreateUserProps, CreateUserFunction, BuildCreateUserProps };
+export { CreateUserFunction, CreateUserProps, IUser };

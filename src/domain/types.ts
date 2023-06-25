@@ -5,7 +5,7 @@ interface IEntity {
 }
 
 type BuildCreateEntityProps = {
-  idGenerator: () => string;
+  idGenerator(): string;
 };
 
-export { IEntity, BuildCreateEntityProps };
+export { BuildCreateEntityProps, IEntity };

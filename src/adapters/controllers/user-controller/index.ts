@@ -1,6 +1,6 @@
 import { fastifyAdapter } from "../fastify-adapter";
-import { buildUserController } from "./user-controller";
+import { buildUserController } from "./build";
 
-const userController = buildUserController(fastifyAdapter);
+const userController = buildUserController(fastifyAdapter().http);
 
 export { userController };

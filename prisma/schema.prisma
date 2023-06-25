@@ -18,4 +18,31 @@ model User {
   profilePictureUrl String
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  boards            Board[]
+}
+
+model Board {
+  id        String    @id @default(uuid())
+  userId    String
+  name      String
+  type      BoardType
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  elements  Element[]
+}
+
+enum BoardType {
+  private
+  public
+  team
+}
+
+model Element {
+  id        String   @id @default(uuid())
+  boardId   String
+  data      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
 }

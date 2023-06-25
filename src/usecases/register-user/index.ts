@@ -1,5 +1,5 @@
-import { userPrismaRepository } from "@/adapters/repositories/";
-import { buildRegisterUser } from "./register-user";
+import { userPrismaRepository } from "@/adapters/repositories";
+import { buildRegisterUser } from "./build";
 
 const registerUser = buildRegisterUser(userPrismaRepository);
 

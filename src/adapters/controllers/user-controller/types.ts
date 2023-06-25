@@ -1,6 +1,6 @@
 interface IUserController {
-  signUpUser: (...args: any[]) => Promise<void>;
-  signInUser: (...args: any[]) => Promise<void>;
+  signUpUser(...args: any[]): Promise<void>;
+  signInUser(...args: any[]): Promise<void>;
 }
 
 type SignUpBody = {
@@ -11,4 +11,4 @@ type SignUpBody = {
 
 type SignInBody = Omit<SignUpBody, "name">;
 
-export { IUserController, SignUpBody, SignInBody };
+export { IUserController, SignInBody, SignUpBody };
