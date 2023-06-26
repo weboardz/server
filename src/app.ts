@@ -1,3 +1,4 @@
+import cookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
 import websocket from "@fastify/websocket";
@@ -9,7 +10,11 @@ const app = fastify();
 
 app.register(cors, { origin: true });
 app.register(websocket, { options: { clientTracking: true } });
-app.register(jwt, { secret: process.env.SECRET ?? "supersecret" });
+app.register(jwt, {
+  secret: process.env.SECRET ?? "supersecret",
+  cookie: { cookieName: "token", signed: false },
+});
+app.register(cookie);
 
 app.setErrorHandler((error, _, reply) => {
   const { statusCode = 500, name, message } = error;
